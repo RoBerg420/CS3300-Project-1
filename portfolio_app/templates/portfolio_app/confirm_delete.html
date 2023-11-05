@@ -1,0 +1,12 @@
+{% extends 'portfolio_app/base_template.html' %}
+
+{% block content %}
+<h2>Are you sure you want to delete this item? {{proj.title}}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete it</button>
+        <a href="{% url 'project-detail' proj.id%}">Cancel</a>
+    </form>
+{% endblock %}
+
+<a href="{% url 'delete-project' proj.pk %}">Delete</a>

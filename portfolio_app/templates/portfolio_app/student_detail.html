@@ -1,0 +1,17 @@
+{% extends 'portfolio_app/base_template.html' %}
+
+
+{% block content %}
+<h1>The {{ student.name }} Formation </h1>
+
+
+
+
+<p><strong><a href="{{ student.portfolio.get_absolute_url }}">{{ student.portfolio.title }} </a>
+
+<a class="btn btn-info" href="{{student.portfolio.get_absolute_url}}/update" role="button">Add Details</a>
+
+
+
+
+{% endblock %}

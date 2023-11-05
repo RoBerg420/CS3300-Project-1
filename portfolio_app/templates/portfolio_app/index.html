@@ -1,0 +1,51 @@
+<!-- inherit from base.html -->
+{% extends 'portfolio_app/base_template.html' %}
+
+
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<h1>
+    Geological Formations around Colorado!!
+</h1>
+
+<h2><br>What are outcrops?</h2>
+<p> Outcrops could usually consists of multiple formations. <br>
+    Formations themselves are comprised of many different type of rocks
+    from different time periods.
+
+</p>
+
+<h4><br> What is a formation? </h4>
+<p> A geological formation, or simply formation, is a body 
+    of rock having a consistent set of physical characteristics that 
+    distinguishes it from adjacent bodies of rock, and which occupies 
+    a particular position in the layers of rock exposed in a geographical region
+</p>
+<br>
+<h3> What defines a rock?</h3>
+
+<p> Rocks are made of minerals wich in turn are made of elements.
+    <br> If you don't know what defines a mineral just remember D.I.S.C.O!
+<br><br> D.I.S.C.O being an acronym of course! </p>
+
+<ul>
+
+        <li>Defined Crystalline Structure
+        <li>Inorganic
+        <li>Solid
+        <li>Chemical Composition
+        <li>Occurs Naturally
+</ul>
+<!--
+<ul class="list-group">
+    
+{% for i in student_active_portfolios %}
+<li class="list-group-item">{{i.name}} Formation
+<p><strong>{{ i.portfolio.title }}
+<a class="btn btn-primary" href="{% url 'portfolios' %}" role="button">View</a>
+</li>
+{% endfor %}
+-->
+
+</ul>
+{% endblock %}

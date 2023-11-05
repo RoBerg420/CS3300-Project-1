@@ -1,0 +1,12 @@
+{% extends 'portfolio_app/base_template.html' %}
+
+{% block content %}
+<h1>Project Title: {{ project.title }}</h1>
+
+<a class="btn btn-danger" href="{{project.get_absolute_url}}/delete">Delete Details</a>
+<a class="btn btn-info" href="{{project.get_absolute_url}}/update">Update Details</a>
+<p><strong>Description:</strong> {{ project.description }}</p>
+<p><strong>Portfolio:</strong><a href={{project.portfolio.get_absolute_url}}> {{ project.portfolio }}</a>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'portfolio_app/base_template.html' %}
+
+
+{% block content %}
+<h1>Formations</h1>
+{% if student_list %}
+<ul>
+{% for student in student_list %}
+<li>
+<a href="{{ student.get_absolute_url }}">{{ student.name }}</a>
+
+
+
+
+
+</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>There are no formations.</p>
+{% endif %}
+{% endblock %}

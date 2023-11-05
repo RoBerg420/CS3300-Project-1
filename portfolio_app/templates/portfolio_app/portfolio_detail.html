@@ -1,0 +1,25 @@
+{% extends 'portfolio_app/base_template.html' %}
+
+{% block content %}
+
+<h1>About the  {{student.name}} formation </h1>
+
+<p><strong></strong> {{ portfolio.about }}</p>
+<ul class="list-group">
+    {% for i in student_portfolio_projects %}
+    <li>
+    <!--<class="list-group-item"><strong>Project: {{i.title}}-->
+    <p>{{i.description}}
+   <!-- <a class="btn btn-success" href="{{i.get_absolute_url}}" role="button">View</a> -->
+    <a class="btn btn-primary" href="{{i.get_absolute_url}}/update" role="button">Edit</a>
+    <a class="btn btn-danger" href="{{i.get_absolute_url}}">Delete</a>
+
+    
+    
+    </li>
+    {% endfor %}
+    
+    </ul>
+    {% endblock %}
+
+    

@@ -1,0 +1,16 @@
+{% extends 'portfolio_app/base_template.html' %}
+
+{% block content %}
+<h1>Geological outcrops in your area!</h1>
+{% if student_list %}
+<ul>
+{% for project in project_list %}
+<li>
+<a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+<p></p>
+{% endif %}
+{% endblock %}

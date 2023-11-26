@@ -6,14 +6,22 @@
 
 {% block content %}
 
-{% if uploaded_file %}
-        <h2>Uploaded File Details:</h2>
-        <p>File Name: {{ uploaded_file.file.name }}</p>
-        <p>Uploaded Date: {{ uploaded_file.uploaded_at }}</p>
-        <!-- Add more details or display content as needed -->
-{% endif %}
+{% for file in folder_contents %}
+        <h3> Files currently uploaded <h3>
+        <li>{{ file }}</li>
 
-<h1>Add a file below.</h1>
+    
+        <form method="post" action="{% url 'delete_file' file %}">
+                {% csrf_token %}
+                <input type="submit" value="Delete File" style="width: 150px; height: 40px;font-size: 14px; background-color: darkred; color: white;">
+        </form>
+
+        <!-- <a href="{% url 'download_file' 'file_name.ext' %}" download>Download  File</a> -->
+
+        <br> <br>
+ {% endfor %}
+<br>
+<h2>Add a file below:</h2>
 
 {% if user.is_authenticated %}
 
@@ -24,7 +32,7 @@
 </form>
 
 {% else  %}
-        <h2> Please login to add a file. </h2>
+        <h3> Please login to add a file. </h3>
 {% endif %}
 
 

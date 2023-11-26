@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.http import HttpResponse
 from django.views import generic
 from .models import Student
 from django.urls import reverse_lazy
@@ -18,7 +17,10 @@ from django.contrib.auth import logout
 
 from .forms import UploadFileForm
 
-from .models import UploadedFile
+from django.http import HttpResponse
+from django.conf import settings
+
+import os
 
 # Create your views here.
 def index(request):
@@ -153,26 +155,38 @@ def logout_view(request):
 
 def upload_file(request):
     uploaded_file = None
+    folder_path = os.path.join(os.getcwd(), 'media/uploads')
+    folder_contents = os.listdir(folder_path)
+
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = form.save()  # Save the uploaded file
+            
             return render(request, 'portfolio_app/upload_success.html', {'form': form, 'uploaded_file': uploaded_file}) # Redirect to a success page upon successful upload
     else:
         form = UploadFileForm()
 
-    return render(request, 'portfolio_app/upload_file.html', {'form': form, 'uploaded_file': uploaded_file})
+    return render(request, 'portfolio_app/upload_file.html', {'form': form, 'uploaded_file': uploaded_file, 'folder_contents': folder_contents})
 
 def upload_success(request):
     return render(request, 'portfolio_app/upload_success.html')
 
+def delete_file(request, file_name):
+    folder_path = os.path.join(os.getcwd(), 'media/uploads')
+    file_path = os.path.join(folder_path, file_name)
 
-def display_uploaded_file(request, file_id):
-    try:
-        uploaded_file = UploadedFile.objects.get(id=file_id)
-    except UploadedFile.DoesNotExist:
-        # Handle file not found error (e.g., display an error page or redirect)
-        # Example: return HttpResponse("File not found", status=404)
-        pass
+    if os.path.exists(file_path):
+        os.remove(file_path)  # Delete file
 
-    return render(request, 'display_uploaded_file.html', {'uploaded_file': uploaded_file})
+    return redirect('upload_file') 
+
+def download_file(request, file_name):
+    file_path = os.path.join(settings.MEDIA_ROOT, file_name)  # Replace with your file path
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as file:
+            response = HttpResponse(file.read(), content_type='application/octet-stream')
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+            return response
+    else:
+        return HttpResponse("File not found", status=404)

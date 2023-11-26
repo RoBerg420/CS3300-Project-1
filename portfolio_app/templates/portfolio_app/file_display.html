@@ -1,0 +1,16 @@
+<!-- inherit from base.html -->
+{% extends 'portfolio_app/base_template.html' %}
+
+
+{% block content %}
+<h1>List of Uploaded Files</h1>
+    <ul>
+        {% for file in uploaded_files %}
+            <li>
+                <strong>Title:</strong> {{ file.title }}<br>
+                <strong>File:</strong> <a href="{{ file.file.url }}">{{ file.file.name }}</a><br>
+                <!-- You can adjust the display format or add more details as needed -->
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -8,6 +8,18 @@ from .models import Portfolio
 from .models import Project
 from .forms import ProjectForm, PortfolioForm
 
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
+
+from .forms import CustomCreationForm
+
+from .forms import CustomAuthenticationForm
+from django.contrib.auth import logout
+
+from .forms import UploadFileForm
+
+from .models import UploadedFile
+
 # Create your views here.
 def index(request):
     student_active_portfolios = Student.objects.select_related('portfolio').all().filter(portfolio__is_active=True)
@@ -105,3 +117,62 @@ class ProjectListView(generic.ListView):
 
 class ProjectDetailView(generic.DetailView):
     model = Project
+
+def createAnAccount(request):
+    if request.method == 'POST':
+        form = CustomCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirect to a success page or login page
+            return redirect('index')
+    else:
+        form = CustomCreationForm()
+        
+    return render(request, 'portfolio_app/create_Account.html', {'form': form})
+
+def custom_login(request):
+    if request.method == 'POST':
+        form = CustomAuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                # Redirect to a success page or home page
+                return redirect('index')
+    else:
+        form = CustomAuthenticationForm()
+
+    return render(request, 'portfolio_app/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+   
+    return redirect('login')
+
+def upload_file(request):
+    uploaded_file = None
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = form.save()  # Save the uploaded file
+            return render(request, 'portfolio_app/upload_success.html', {'form': form, 'uploaded_file': uploaded_file}) # Redirect to a success page upon successful upload
+    else:
+        form = UploadFileForm()
+
+    return render(request, 'portfolio_app/upload_file.html', {'form': form, 'uploaded_file': uploaded_file})
+
+def upload_success(request):
+    return render(request, 'portfolio_app/upload_success.html')
+
+
+def display_uploaded_file(request, file_id):
+    try:
+        uploaded_file = UploadedFile.objects.get(id=file_id)
+    except UploadedFile.DoesNotExist:
+        # Handle file not found error (e.g., display an error page or redirect)
+        # Example: return HttpResponse("File not found", status=404)
+        pass
+
+    return render(request, 'display_uploaded_file.html', {'uploaded_file': uploaded_file})

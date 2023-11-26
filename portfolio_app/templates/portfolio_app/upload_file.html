@@ -1,0 +1,32 @@
+<!-- inherit from base.html -->
+{% extends 'portfolio_app/base_template.html' %}
+
+
+
+
+{% block content %}
+
+{% if uploaded_file %}
+        <h2>Uploaded File Details:</h2>
+        <p>File Name: {{ uploaded_file.file.name }}</p>
+        <p>Uploaded Date: {{ uploaded_file.uploaded_at }}</p>
+        <!-- Add more details or display content as needed -->
+{% endif %}
+
+<h1>Add a file below.</h1>
+
+{% if user.is_authenticated %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+{% else  %}
+        <h2> Please login to add a file. </h2>
+{% endif %}
+
+
+</ul>
+{% endblock %}

@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
         path('', views.index, name='index'),
         path('students/', views.StudentListView.as_view(), name= 'students'),
@@ -17,4 +19,16 @@ urlpatterns = [
         
         path('project/<int:pk>/delete', views.delete_project, name='delete-project'),
         path('project/<int:pk>/update', views.update_project, name='update-project'),
+
+        path('create_Account/', views.createAnAccount, name='create_Account'),
+
+        path('login/', views.custom_login, name='login'),
+        path('logout/', views.logout_view, name='logout'),
+        
+        path('upload/', views.upload_file, name='upload_file'),
+        path('upload_success/', views.upload_success, name ="upload_success"),
+        path('display-file/<int:file_id>/', views.display_uploaded_file, name='display_uploaded_file'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

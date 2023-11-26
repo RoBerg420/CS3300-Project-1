@@ -1,0 +1,44 @@
+<!-- inherit from base.html -->
+{% extends 'portfolio_app/base_template.html' %}
+
+
+{% block content %}
+<h1>Login</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+
+   
+</form>
+<br>
+<a href="{% url 'create_Account' %}"><button>Create Account</button></a>
+
+
+<p> <br> TEST USERNAME AND PASSWORD: <br> Username: Jacob_Smith <br> Password: PepsiTime1 </p>
+
+{% if user.is_authenticated %}
+
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+   
+</form>
+
+        <h1>Logged in as, {{ user.username }}</h1>
+        <!-- Show content for logged-in users -->
+        <p>You have been successfully logged in!</p>
+        
+
+    {% else %}
+        <h1>Logged in as, Guest</h1>
+        <!-- Show content for guests (non-logged-in users) -->
+        <p>Please log in for more features!</p>
+
+    {% endif %}
+
+
+
+</ul>
+{% endblock %}

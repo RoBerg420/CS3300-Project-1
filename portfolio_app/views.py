@@ -182,7 +182,7 @@ def delete_file(request, file_name):
     return redirect('upload_file') 
 
 def download_file(request, file_name):
-    file_path = os.path.join(settings.MEDIA_ROOT, file_name)  # Replace with your file path
+    file_path = os.path.join(settings.MEDIA_ROOT, file_name)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as file:
             response = HttpResponse(file.read(), content_type='application/octet-stream')

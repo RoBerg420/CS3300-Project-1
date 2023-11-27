@@ -25,12 +25,13 @@
        
         <li>{{ file }}</li>
 
-    
+        {% if user.is_authenticated %}
         <form method="post" action="{% url 'delete_file' file %}">
                 {% csrf_token %}
                 <input type="submit" value="Delete File" style="width: 150px; height: 40px;font-size: 14px; background-color: darkred; color: white;">
         </form>
 
+        {% endif %}
         <!-- <a href="{% url 'download_file' 'file_name.ext' %}" download>Download  File</a> -->
 
         <br> <br>

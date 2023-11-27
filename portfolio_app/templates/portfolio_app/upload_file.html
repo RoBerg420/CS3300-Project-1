@@ -6,8 +6,23 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
+<h2>Add a file below:</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+{% else  %}
+        <h3> Please login to add a file. </h3>
+{% endif %}
+
+<br>
+
+<h3> Files currently uploaded <h3>
 {% for file in folder_contents %}
-        <h3> Files currently uploaded <h3>
+       
         <li>{{ file }}</li>
 
     
@@ -20,20 +35,6 @@
 
         <br> <br>
  {% endfor %}
-<br>
-<h2>Add a file below:</h2>
-
-{% if user.is_authenticated %}
-
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-</form>
-
-{% else  %}
-        <h3> Please login to add a file. </h3>
-{% endif %}
 
 
 </ul>
